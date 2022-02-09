@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Country } from "../../types/country";
 import api from "../../services/api";
 import { CountriesProvider } from "./hooks/useCountries";
@@ -15,8 +15,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Search } from "@mui/icons-material";
 import useSearch from "../../hooks/Search";
 import NoData from "../../components/NoData";
-
-let timer: NodeJS.Timeout;
 
 const useStyles = makeStyles((theme) => ({
   search: {
