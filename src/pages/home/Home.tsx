@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Country } from "../../types/country";
 import api from "../../services/api";
-import MenuFilterBox from "../menu/MenuFilterBox";
 import { CountriesProvider } from "./hooks/useCountries";
 import CountryListItem from "./CountryListItem";
 import {
@@ -14,6 +13,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Search } from "@mui/icons-material";
+import useSearch from "../../hooks/Search";
+import NoData from "../../components/NoData";
 
 let timer: NodeJS.Timeout;
 
@@ -73,37 +74,29 @@ const Home: React.FC = () => {
   let history = useNavigate();
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
   const [countries, setCountries] = useState<Country[]>([]);
+  const [filtered, setFiltered] = useState<Country[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [filter, setFilter] = useState("0");
+  const search = useSearch();
 
-  useEffect(() => handleSearch(""), []);
+  useEffect(() => {
+    setLoading(true);
+    api
+      .get<Country[]>(filter === "0" ? `/all?fields=` : `/continent/${filter}`)
+      .then((response) => {
+        setCountries(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => setLoading(false));
+  }, [filter]);
 
-  function handleTextSearchChange(value: string) {
-    setSearchValue(value);
-
-    clearTimeout(timer);
-
-    timer = setTimeout(() => handleSearch(value), 500);
-  }
-
-  const handleSearch = useCallback(
-    (searchText?: string) => {
-      setLoading(true);
-      api
-        .get<Country[]>(
-          filter === "0" ? `/all?field=${searchText}` : `/continent/${filter}`
-        )
-        .then((response) => {
-          setCountries(response.data);
-        })
-        .catch((err) => {
-          console.error(err);
-        })
-        .finally(() => setLoading(false));
-    },
-    [filter]
-  );
+  useEffect(() => {
+    const f = search(searchValue, "name", countries);
+    setFiltered(f);
+  }, [searchValue, search, countries]);
 
   async function handleRedirect(country: Country) {
     history(`/${country.name}`);
@@ -120,7 +113,7 @@ const Home: React.FC = () => {
               variant="outlined"
               className={classes.text}
               value={searchValue}
-              onChange={(e) => handleTextSearchChange(e.target.value)}
+              onChange={(e) => setSearchValue(e.target.value)}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -155,14 +148,20 @@ const Home: React.FC = () => {
         </div>
       ) : (
         <div className={classes.container}>
-          {countries.map((country) => (
-            <TableRow
-              key={country.numericCode}
-              onClick={() => handleRedirect(country)}
-            >
-              <CountryListItem country={country} />
-            </TableRow>
-          ))}
+          {filtered.length === 0 ? (
+            <NoData message="No country to show" />
+          ) : (
+            <>
+              {filtered.map((country) => (
+                <TableRow
+                  key={country.numericCode}
+                  onClick={() => handleRedirect(country)}
+                >
+                  <CountryListItem country={country} />
+                </TableRow>
+              ))}
+            </>
+          )}
         </div>
       )}
     </CountriesProvider>
