@@ -20,7 +20,7 @@ export const useAppThemeContext = () => {
   return useContext(ThemeContext);
 };
 
-export const AppThemeProvider: React.FC = ({ children }) => {
+const AppThemeProvider: React.FC = ({ children }) => {
   const [themeName, setThemeName] = useState<"light" | "dark">("light");
 
   const toggleTheme = useCallback(() => {
@@ -41,6 +41,7 @@ export const AppThemeProvider: React.FC = ({ children }) => {
         <Box
           width="100vw"
           height="100vh"
+          color={theme.palette.text.primary}
           bgcolor={theme.palette.background.default}
         >
           {children}
@@ -49,3 +50,5 @@ export const AppThemeProvider: React.FC = ({ children }) => {
     </ThemeContext.Provider>
   );
 };
+
+export { AppThemeProvider };
