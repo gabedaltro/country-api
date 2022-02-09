@@ -1,5 +1,4 @@
 export function populationFormatter(str: string): string {
-  console.log(str);
   const cleaned = str.toString().replace(/\D/g, "");
 
   const masks = {
