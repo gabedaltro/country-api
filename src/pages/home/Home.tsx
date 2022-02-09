@@ -97,7 +97,7 @@ const Home: React.FC = () => {
   }, [searchValue, search, countries]);
 
   async function handleRedirect(country: Country) {
-    history(`/${country.name}`);
+    history(`/country/${country.name}`);
   }
 
   return (

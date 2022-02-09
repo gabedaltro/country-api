@@ -8,7 +8,7 @@ export const AppRoutes = () => {
     <Routes>
       <Route path="/home" element={<Home />} />
       <Route path="/" element={<Navigate to="/home" />} />
-      <Route path="/:name" element={<CountryItem />} />
+      <Route path="/country/:name" element={<CountryItem />} />
       <Route path="/error" element={<div>Error 404</div>} />
       <Route path="*" element={<Navigate to="/error" />} />
     </Routes>

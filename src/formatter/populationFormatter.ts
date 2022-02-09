@@ -1,5 +1,6 @@
 export function populationFormatter(str: string): string {
-  const cleaned = str.replace(/\D/g, "");
+  console.log(str);
+  const cleaned = str.toString().replace(/\D/g, "");
 
   const masks = {
     4: cleaned.match(/^(\d{1})(\d{3})$/),

@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { Country } from "../../types/country";
+import { populationFormatter } from "../../formatter/populationFormatter";
 
 type CountryListItemProps = {
   country: Country;
@@ -46,7 +47,7 @@ const CountryListItem: React.FC<CountryListItemProps> = ({ country }) => {
             {country.name}
           </Typography>
           <Typography marginTop={2}>
-            <b>Population:</b> {country.population}
+            <b>Population:</b> {populationFormatter(country.population)}
           </Typography>
           <Typography>
             <b>Region:</b> {country.region}
