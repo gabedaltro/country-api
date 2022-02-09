@@ -1,12 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Country } from "../../types/country";
 import api from "../../services/api";
 import MenuFilterBox from "../menu/MenuFilterBox";
 import { CountriesProvider } from "./hooks/useCountries";
 import CountryListItem from "./CountryListItem";
-import { CircularProgress, TableRow } from "@mui/material";
+import {
+  CircularProgress,
+  InputAdornment,
+  MenuItem,
+  TableRow,
+  TextField,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import { Search } from "@mui/icons-material";
+
+let timer: NodeJS.Timeout;
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -29,6 +38,34 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     marginTop: 250,
   },
+  content: {
+    display: "flex",
+    width: "100%",
+    [theme.breakpoints.down("xs")]: {
+      display: "grid",
+      gridTemplateColumns: "repeat(1,1fr)",
+    },
+  },
+  text: {
+    width: 400,
+    backgroundColor: "white",
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+    },
+  },
+  typo: {
+    width: 150,
+    backgroundColor: "white",
+  },
+  filter: {
+    display: "flex",
+    justifyContent: "end",
+    width: "100%",
+    [theme.breakpoints.down("xs")]: {
+      justifyContent: "start",
+      marginTop: 10,
+    },
+  },
 }));
 
 const Home: React.FC = () => {
@@ -38,20 +75,35 @@ const Home: React.FC = () => {
   const [countries, setCountries] = useState<Country[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [filter, setFilter] = useState("0");
 
-  useEffect(() => {
-    if (!api) return;
-    setLoading(true);
-    api
-      .get<Country[]>("/all")
-      .then((response) => {
-        setCountries(response.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => setLoading(false));
-  }, []);
+  useEffect(() => handleSearch(""), []);
+
+  function handleTextSearchChange(value: string) {
+    setSearchValue(value);
+
+    clearTimeout(timer);
+
+    timer = setTimeout(() => handleSearch(value), 500);
+  }
+
+  const handleSearch = useCallback(
+    (searchText?: string) => {
+      setLoading(true);
+      api
+        .get<Country[]>(
+          filter === "0" ? `/all?field=${searchText}` : `/continent/${filter}`
+        )
+        .then((response) => {
+          setCountries(response.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => setLoading(false));
+    },
+    [filter]
+  );
 
   async function handleRedirect(country: Country) {
     history(`/${country.name}`);
@@ -60,10 +112,42 @@ const Home: React.FC = () => {
   return (
     <CountriesProvider value={{ selectedCountry, setSelectedCountry }}>
       <div className={classes.search}>
-        <MenuFilterBox
-          setSearchValue={setSearchValue}
-          searchValue={searchValue}
-        />
+        <div className={classes.content}>
+          <div>
+            <TextField
+              placeholder="Search for a country..."
+              autoFocus
+              variant="outlined"
+              className={classes.text}
+              value={searchValue}
+              onChange={(e) => handleTextSearchChange(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </div>
+          <div className={classes.filter}>
+            <TextField
+              id="outlined-select-currency"
+              select
+              label="Filter by Region"
+              value={filter}
+              className={classes.typo}
+              onChange={(e) => setFilter(e.target.value)}
+            >
+              <MenuItem value="0">All countries</MenuItem>
+              <MenuItem value="africa">Africa</MenuItem>
+              <MenuItem value="america">America</MenuItem>
+              <MenuItem value="asia">Asia</MenuItem>
+              <MenuItem value="europe">Europe</MenuItem>
+              <MenuItem value="oceania">Oceania</MenuItem>
+            </TextField>
+          </div>
+        </div>
       </div>
       {loading ? (
         <div className={classes.align}>

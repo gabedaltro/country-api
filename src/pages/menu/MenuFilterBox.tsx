@@ -6,6 +6,8 @@ import { Search } from "@mui/icons-material";
 type MenuFilterBoxProps = {
   setSearchValue(value: string): void;
   searchValue: string;
+  filter: string;
+  setFilter(value: string): void;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -42,8 +44,9 @@ const useStyles = makeStyles((theme) => ({
 const MenuFilterBox: React.FC<MenuFilterBoxProps> = ({
   setSearchValue,
   searchValue,
+  filter,
+  setFilter,
 }) => {
-  const [filter, setFilter] = useState("africa");
   const classes = useStyles();
 
   return (
@@ -74,6 +77,7 @@ const MenuFilterBox: React.FC<MenuFilterBoxProps> = ({
           className={classes.typo}
           onChange={(e) => setFilter(e.target.value)}
         >
+          <MenuItem value="0">All countries</MenuItem>
           <MenuItem value="africa">Africa</MenuItem>
           <MenuItem value="america">America</MenuItem>
           <MenuItem value="asia">Asia</MenuItem>
