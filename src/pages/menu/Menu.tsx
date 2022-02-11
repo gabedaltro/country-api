@@ -8,13 +8,15 @@ import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   header: {
     height: 70,
-    width: "100%",
-    display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
+    display: "flex",
+    justifyContent: "space-between",
+    flexFlow: "row nowrap",
     borderBottom: "2px solid #c1c1c1",
     alignItems: "center",
     backgroundColor: "white",
     textAlign: "end",
+    paddingRight: 50,
+    paddingLeft: 50,
   },
   container: {
     marginTop: 50,
@@ -22,6 +24,14 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 50,
   },
   redirect: {
+    cursor: "pointer",
+  },
+  chart: {
+    cursor: "pointer",
+  },
+  darkMode: {
+    display: "flex",
+    flexWrap: "nowrap",
     cursor: "pointer",
   },
 }));
@@ -40,17 +50,16 @@ const Menu: React.FC = ({ children }) => {
     <>
       <div className={classes.header}>
         <div className={classes.redirect} onClick={handleRedirect}>
-          <Typography textAlign="start" paddingLeft="50px" fontWeight="bold">
+          <Typography textAlign="start" fontWeight="bold">
             Where in the world?
           </Typography>
         </div>
-        <div onClick={toggleTheme}>
-          <Button color="inherit">
-            <DarkMode />
-            <Typography marginLeft={1} paddingRight="50px" textTransform="none">
-              Dark Mode
-            </Typography>
-          </Button>
+        <div className={classes.chart} onClick={() => history("/charts")}>
+          <Typography variant="button">Charts</Typography>
+        </div>
+        <div className={classes.darkMode} onClick={toggleTheme}>
+          <DarkMode />
+          <Typography marginLeft={1}>Dark Mode</Typography>
         </div>
       </div>
       <div className={classes.container}>{children}</div>
