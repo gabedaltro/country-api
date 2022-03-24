@@ -17,9 +17,7 @@ const useStyles = makeStyles({
   },
 });
 
-interface FormControlChartsProps {}
-
-const FormControlCharts: React.FC<FormControlChartsProps> = ({}) => {
+const FormControlCharts: React.FC = () => {
   const classes = useStyles();
   const {
     selectedChartOne,

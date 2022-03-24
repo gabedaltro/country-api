@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import { DarkMode } from "@mui/icons-material";
 import { useAppThemeContext } from "../../shared/contexts";
