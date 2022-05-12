@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { TableTemplate } from "../types/tableTemplate";
+import { TableTemplate } from "types/tableTemplate";
 
 type TableContextValue = {
   width?: number;

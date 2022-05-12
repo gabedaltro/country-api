@@ -15,13 +15,13 @@ export function populationFormatter(str: string): string {
 
   const formatters = {
     10: (match: RegExpMatchArray) =>
-      `${match[1]},${match[2]},${match[3]},${match[4]}`,
-    9: (match: RegExpMatchArray) => `${match[1]},${match[2]},${match[3]}`,
-    8: (match: RegExpMatchArray) => `${match[1]},${match[2]},${match[3]}`,
-    7: (match: RegExpMatchArray) => `${match[1]},${match[2]},${match[3]}`,
-    6: (match: RegExpMatchArray) => `${match[1]},${match[2]}`,
-    5: (match: RegExpMatchArray) => `${match[1]},${match[2]}`,
-    4: (match: RegExpMatchArray) => `${match[1]},${match[2]}`,
+      `${match[1]}.${match[2]}.${match[3]}.${match[4]}`,
+    9: (match: RegExpMatchArray) => `${match[1]}.${match[2]}.${match[3]}`,
+    8: (match: RegExpMatchArray) => `${match[1]}.${match[2]}.${match[3]}`,
+    7: (match: RegExpMatchArray) => `${match[1]}.${match[2]}.${match[3]}`,
+    6: (match: RegExpMatchArray) => `${match[1]}.${match[2]}`,
+    5: (match: RegExpMatchArray) => `${match[1]}.${match[2]}`,
+    4: (match: RegExpMatchArray) => `${match[1]}.${match[2]}`,
   };
 
   const match = masks[length];

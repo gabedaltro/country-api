@@ -2,8 +2,8 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { Country } from "../../types/country";
-import { populationFormatter } from "../../formatter/populationFormatter";
+import { Country } from "types/country";
+import { populationFormatter } from "formatter/populationFormatter";
 
 type CountryListItemProps = {
   country: Country;

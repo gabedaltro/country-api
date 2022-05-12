@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import api from "../../services/api";
-import { Country } from "../../types/country";
+import api from "services/api";
+import { Country } from "types/country";
 import CountryShowItem from "./CountryShowItem";
 
 const CountryItem: React.FC = () => {

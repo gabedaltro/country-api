@@ -1,9 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@mui/material";
-import { Country } from "../../types/country";
+import { Country } from "types/country";
 import CountryItemActions from "./CountryItemActions";
-import NoData from "../../components/NoData";
+import NoData from "components/NoData";
 
 type CountryShowItemProps = {
   country: Country;

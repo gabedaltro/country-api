@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import { ThemeProvider } from "@emotion/react";
-import { DarkTheme, LightTheme } from "../themes";
+import { DarkTheme, LightTheme } from "shared/themes";
 import { Box } from "@mui/system";
 
 interface ThemeContextData {

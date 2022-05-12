@@ -1,8 +1,6 @@
 import * as React from "react";
 import { Typography } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
-import { DarkMode } from "@mui/icons-material";
-import { useAppThemeContext } from "../../shared/contexts";
 import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,9 +24,6 @@ const useStyles = makeStyles((theme) => ({
   redirect: {
     cursor: "pointer",
   },
-  chart: {
-    cursor: "pointer",
-  },
   darkMode: {
     display: "flex",
     flexWrap: "nowrap",
@@ -38,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Menu: React.FC = ({ children }) => {
   let history = useNavigate();
-  const { toggleTheme } = useAppThemeContext();
 
   async function handleRedirect(e: any) {
     e.preventDefault();
@@ -53,13 +47,6 @@ const Menu: React.FC = ({ children }) => {
           <Typography textAlign="start" fontWeight="bold">
             Where in the world?
           </Typography>
-        </div>
-        <div className={classes.chart} onClick={() => history("/charts")}>
-          <Typography variant="button">Charts</Typography>
-        </div>
-        <div className={classes.darkMode} onClick={toggleTheme}>
-          <DarkMode />
-          <Typography marginLeft={1}>Dark Mode</Typography>
         </div>
       </div>
       <div className={classes.container}>{children}</div>
